@@ -77,6 +77,7 @@ class NewCommand extends \Symfony\Component\Console\Command\Command {
 	protected function download($zipFile)
 	{
 		$data = json_decode(\GuzzleHttp\get('http://laravel-china.org/download_link.json')->getBody(), true);
+		
 		$response = \GuzzleHttp\get($data['link'])->getBody();
 
 		file_put_contents($zipFile, $response);
