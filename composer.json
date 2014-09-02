@@ -17,7 +17,7 @@
 		"symfony/console": "~2.3"
 	},
 	"bin": [
-		"cnlaravel"
+		"laravelcn"
 	],
 	"minimum-stability": "stable"
 }
