@@ -1,12 +1,12 @@
 {
-    "name": "laravel/installer",
-    "description": "Laravel application installer.",
+    "name": "laravel-china/installer",
+    "description": "Laravel application installer for China",
     "keywords": ["laravel"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Taylor Otwell",
-            "email": "taylorotwell@gmail.com"
+            "name": "Charlie Jade",
+            "email": "summer.alex07@gmail.com"
         }
     ],
 	"autoload": {
@@ -17,7 +17,7 @@
 		"symfony/console": "~2.3"
 	},
 	"bin": [
-		"laravel"
+		"cnlaravel"
 	],
 	"minimum-stability": "stable"
 }
