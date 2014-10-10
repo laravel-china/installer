@@ -17,7 +17,8 @@ class NewCommand extends \Symfony\Component\Console\Command\Command {
 	{
 		$this->setName('new')
 				->setDescription('Create a new Laravel application.')
-				->addArgument('name', InputArgument::REQUIRED);
+				->addArgument('name', InputArgument::REQUIRED)
+				->addOption('key', null, InputOption::VALUE_NONE, 'Generate Laravel Application Key');
 	}
 
 	/**
@@ -30,7 +31,8 @@ class NewCommand extends \Symfony\Component\Console\Command\Command {
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$this->verifyApplicationDoesntExist(
-			$directory = getcwd().'/'.$input->getArgument('name')
+			$directory = getcwd().'/'.$input->getArgument('name'),
+			$output
 		);
 
 		$output->writeln('<info>Crafting application...</info>');
@@ -38,6 +40,11 @@ class NewCommand extends \Symfony\Component\Console\Command\Command {
 		$this->download($zipFile = $this->makeFilename())
              ->extract($zipFile, $directory)
              ->cleanUp($zipFile);
+
+        if ($input->getOption('key')) {
+        	chdir($directory);
+        	system('php artisan key:generate');
+        }
 
 		$output->writeln('<comment>Application ready! Build something amazing.</comment>');
 	}
@@ -48,7 +55,7 @@ class NewCommand extends \Symfony\Component\Console\Command\Command {
 	 * @param  string  $directory
 	 * @return void
 	 */
-	protected function verifyApplicationDoesntExist($directory)
+	protected function verifyApplicationDoesntExist($directory, $output)
 	{
 		if (is_dir($directory))
 		{
@@ -77,7 +84,7 @@ class NewCommand extends \Symfony\Component\Console\Command\Command {
 	protected function download($zipFile)
 	{
 		$data = json_decode(\GuzzleHttp\get('http://laravel-china.org/download_link.json')->getBody(), true);
-		
+
 		$response = \GuzzleHttp\get($data['link'])->getBody();
 
 		file_put_contents($zipFile, $response);
